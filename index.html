@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>کافینت — مرکز خدمات اینترنتی و ثبت‌نام</title>
+<title>کافینت چنار — مرکز خدمات اینترنتی و ثبت‌ نام اینترنتی</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
 
@@ -191,11 +191,9 @@
     display: inline-block;
   }
 
-  /* ── Rest of styles (same as before) ── */
-  /* Layout */
+  /* ── Rest of styles ── */
   #app { display: flex; height: 100vh; overflow: hidden; }
 
-  /* Sidebar */
   #sidebar {
     width: var(--sidebar-w);
     min-width: var(--sidebar-w);
@@ -270,7 +268,6 @@
     border-top: 1px solid var(--border);
   }
 
-  /* Main Content */
   #content {
     flex: 1;
     display: flex;
@@ -279,7 +276,6 @@
     background: var(--bg);
   }
 
-  /* Top Bar */
   #topbar {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -294,7 +290,6 @@
   .topbar-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .topbar-date { font-size: 12px; color: var(--muted); text-align: left; }
 
-  /* Pages */
   .page { display: none; flex: 1; flex-direction: column; overflow: hidden; }
   .page.active { display: flex; }
   
@@ -306,7 +301,6 @@
   .page-body::-webkit-scrollbar { width: 6px; }
   .page-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -341,7 +335,6 @@
   }
   .stat-label { font-size: 12px; color: var(--muted); }
 
-  /* Buttons */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     padding: 8px 16px;
@@ -361,7 +354,6 @@
   .btn-success:hover { background: #155d38; }
   .btn-sm { padding: 5px 11px; font-size: 12px; }
 
-  /* Form */
   .form-grid { display: grid; gap: 12px; }
   .form-grid-2 { grid-template-columns: 1fr 1fr; }
   .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -386,7 +378,6 @@
   }
   .field textarea { resize: vertical; min-height: 90px; }
 
-  /* Search Bar */
   .search-wrap {
     position: relative;
     display: flex;
@@ -417,7 +408,6 @@
     color: var(--muted); cursor: pointer; font-size: 13px;
   }
 
-  /* Table */
   .table-wrap {
     overflow: auto;
     border: 1px solid var(--border);
@@ -448,7 +438,6 @@
   tbody td { padding: 11px 14px; text-align: center; color: var(--text); }
   .empty-row td { color: var(--muted); text-align: center; padding: 32px; }
 
-  /* Badge */
   .badge {
     display: inline-flex; align-items: center;
     padding: 2px 8px; border-radius: 20px;
@@ -461,7 +450,6 @@
   .badge-purple { background: color-mix(in srgb, var(--purple) 15%, transparent); color: var(--purple); }
   .badge-muted { background: var(--surface3); color: var(--muted); }
 
-  /* Section Header */
   .section-header {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 14px;
@@ -471,7 +459,6 @@
   .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
   .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-  /* News Cards */
   .news-cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
   .news-card {
     background: var(--card-news);
@@ -486,7 +473,6 @@
   .news-card-body { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.7; }
   .news-card-meta { font-size: 11px; color: var(--muted); }
 
-  /* Toggle */
   .toggle-btn {
     display: flex; align-items: center; gap: 8px;
     padding: 7px 14px; border-radius: 20px;
@@ -499,7 +485,6 @@
   .toggle-btn:hover { border-color: var(--accent); }
   .toggle-btn.on { background: var(--accent); color: var(--btn-text); border-color: var(--accent); }
 
-  /* Tips/Notes Section */
   .tips-sidebar {
     width: 280px; min-width: 220px;
     background: var(--surface);
@@ -592,9 +577,7 @@
     cursor: pointer;
     transition: transform 0.15s;
   }
-  .note-img-thumb:hover { transform: scale(1.04); }
 
-  /* Image lightbox */
   .lightbox {
     display: none; position: fixed; inset: 0; z-index: 9999;
     background: rgba(0,0,0,0.88);
@@ -616,7 +599,6 @@
     align-items: center; justify-content: center;
   }
 
-  /* Upload area */
   .upload-area {
     border: 2px dashed var(--border);
     border-radius: var(--radius);
@@ -653,7 +635,6 @@
     font-size: 10px; display: flex; align-items: center; justify-content: center;
   }
 
-  /* Modal */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
     background: rgba(0,0,0,0.5);
@@ -678,7 +659,6 @@
   .modal-close:hover { color: var(--danger); }
   .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
-  /* Toast */
   #toast {
     position: fixed; bottom: 24px; left: 24px; z-index: 2000;
     background: var(--text); color: #fff;
@@ -693,7 +673,6 @@
   #toast.success { background: var(--success); }
   #toast.danger { background: var(--danger); }
 
-  /* Misc */
   .row { display: flex; gap: 12px; align-items: flex-start; }
   .row-center { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .gap-2 { gap: 8px; }
@@ -716,10 +695,8 @@
     line-height: 1.8;
   }
 
-  /* cart */
   #cart-table { max-height: 160px; overflow-y: auto; }
 
-  /* Chart container */
   .chart-container {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -734,7 +711,6 @@
     height: 100% !important;
   }
 
-  /* Responsive */
   @media (max-width: 800px) {
     #sidebar { width: 52px; min-width: 52px; }
     .logo-area, .nav-section-title, .nav-item span, .sidebar-bottom { display: none; }
@@ -746,11 +722,9 @@
     .login-box { padding: 30px 20px; }
   }
 
-  /* tips layout */
   #page-tips .page-body { padding: 0; }
   #tips-layout { display: flex; flex: 1; overflow: hidden; height: 100%; }
 
-  /* Sync status */
   #sync-status {
     font-size: 11px;
     padding: 4px 12px;
@@ -800,7 +774,6 @@
     border-color: var(--accent);
   }
 
-  /* ── Login button styles ── */
   .logout-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -811,6 +784,11 @@
     font-family: inherit;
     font-size: 12px;
     transition: all 0.15s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
   .logout-btn:hover {
     background: var(--danger);
@@ -825,8 +803,8 @@
 <div id="login-page">
   <div class="login-box">
     <div class="logo-icon">K</div>
-    <h1>کافینت</h1>
-    <div class="sub">مرکز خدمات اینترنتی و ثبت‌نام</div>
+    <h1>کافینت چنار</h1>
+    <div class="sub">مرکز خدمات اینترنتی و ثبت‌ نام اینترنتی</div>
     
     <div class="field">
       <label>🔑 رمز عبور</label>
@@ -836,7 +814,6 @@
     <button class="btn" onclick="login()">ورود به سیستم</button>
     
     <div class="error" id="login-error"></div>
-    <div class="hint">رمز پیش‌فرض: <span>amiriman1998</span></div>
   </div>
 </div>
 
@@ -881,15 +858,12 @@
       <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()" style="width:100%;justify-content:center;margin-bottom:6px;">
         🌙 تم تاریک
       </button>
-      <button class="logout-btn" onclick="logout()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:6px;">
-        🚪 خروج
-      </button>
+      <button class="logout-btn" onclick="logout()">🚪 خروج</button>
     </div>
   </div>
 
   <!-- ══ MAIN ══ -->
   <div id="content">
-    <!-- Top Bar -->
     <div id="topbar">
       <div style="flex:1">
         <div class="topbar-title" id="topbar-title">داشبورد</div>
@@ -930,9 +904,7 @@
         </div>
 
         <div class="section-header mb-3">
-          <div>
-            <div class="section-title">📌 اطلاعیه‌های مهم</div>
-          </div>
+          <div><div class="section-title">📌 اطلاعیه‌های مهم</div></div>
         </div>
         <div class="news-cards" id="dash-news"></div>
 
@@ -942,12 +914,7 @@
         <div class="card" style="padding:0">
           <div class="table-wrap" style="border:none">
             <table>
-              <thead>
-                <tr>
-                  <th>شماره</th><th>تاریخ</th><th>مشتری</th>
-                  <th>مبلغ (ریال)</th><th>وضعیت</th>
-                </tr>
-              </thead>
+              <thead><tr><th>شماره</th><th>تاریخ</th><th>مشتری</th><th>مبلغ (ریال)</th><th>وضعیت</th></tr></thead>
               <tbody id="dash-orders"></tbody>
             </table>
           </div>
@@ -981,9 +948,7 @@
         <div class="card" style="padding:0">
           <div class="table-wrap" style="border:none">
             <table>
-              <thead>
-                <tr><th>#</th><th>نام خدمت</th><th>دسته</th><th>هزینه</th><th>ظرفیت</th></tr>
-              </thead>
+              <thead><tr><th>#</th><th>نام خدمت</th><th>دسته</th><th>هزینه</th><th>ظرفیت</th></tr></thead>
               <tbody id="svc-table"></tbody>
             </table>
           </div>
@@ -998,9 +963,7 @@
           <div class="form-grid form-grid-3 mb-3">
             <div class="field">
               <label>مشتری</label>
-              <select id="order-cust">
-                <option value="">انتخاب مشتری...</option>
-              </select>
+              <select id="order-cust"><option value="">انتخاب مشتری...</option></select>
             </div>
             <div class="field">
               <label>جستجو خدمت</label>
@@ -1120,7 +1083,6 @@
     <!-- ══ TIPS / NOTES ══ -->
     <div class="page" id="page-tips">
       <div id="tips-layout">
-        <!-- Folder sidebar -->
         <div class="tips-sidebar">
           <div style="padding:12px 10px 6px;border-bottom:1px solid var(--border)">
             <div class="search-wrap">
@@ -1134,8 +1096,6 @@
             <button class="btn btn-primary" style="width:100%;font-size:12px" onclick="openNoteModal()">➕ راهنمای جدید</button>
           </div>
         </div>
-
-        <!-- Note viewer -->
         <div class="tips-main">
           <div id="note-viewer-wrap" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
             <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--surface)">
@@ -1164,15 +1124,13 @@
             <div class="field">
               <label>دسته</label>
               <select id="news-cat">
-                <option>ثبت نام</option><option>تخفیف</option>
-                <option>فنی</option><option>عمومی</option>
+                <option>ثبت نام</option><option>تخفیف</option><option>فنی</option><option>عمومی</option>
               </select>
             </div>
             <div class="field">
               <label>اولویت</label>
               <select id="news-pri">
-                <option>فوری</option><option>بالا</option>
-                <option>متوسط</option><option>پایین</option>
+                <option>فوری</option><option>بالا</option><option>متوسط</option><option>پایین</option>
               </select>
             </div>
           </div>
@@ -1212,7 +1170,6 @@
           <button class="report-tab" onclick="showReport('all')">📈 کلی</button>
         </div>
         
-        <!-- Chart -->
         <div class="chart-container">
           <canvas id="revenueChart"></canvas>
         </div>
@@ -1245,7 +1202,7 @@
   </div><!-- /content -->
 </div><!-- /app -->
 
-<!-- ══ NOTE MODAL ══ -->
+<!-- ══ MODALS ══ -->
 <div class="modal-overlay" id="note-modal">
   <div class="modal">
     <div class="modal-header">
@@ -1291,7 +1248,6 @@
   </div>
 </div>
 
-<!-- ══ ORDER EDIT MODAL ══ -->
 <div class="modal-overlay" id="order-edit-modal">
   <div class="modal">
     <div class="modal-header">
@@ -1309,10 +1265,7 @@
     <div class="field mb-3">
       <label>وضعیت</label>
       <select id="order-edit-status">
-        <option>تکمیل شده</option>
-        <option>در انتظار</option>
-        <option>لغو شده</option>
-        <option>مرجوعی</option>
+        <option>تکمیل شده</option><option>در انتظار</option><option>لغو شده</option><option>مرجوعی</option>
       </select>
     </div>
     <div class="modal-footer">
@@ -1331,7 +1284,7 @@
 <!-- Toast -->
 <div id="toast"></div>
 
-<!-- Chart.js for graphs -->
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
@@ -1346,18 +1299,12 @@ function login() {
   const pass = input.value.trim();
   
   if (pass === PASSWORD) {
-    // Login successful
     error.textContent = '';
     document.getElementById('login-page').classList.add('hidden');
     document.getElementById('app').style.display = 'flex';
-    
-    // Save login state in session (not localStorage for security)
     sessionStorage.setItem('kafinet_logged_in', 'true');
-    
-    // Load the app
     loadDashboard();
     initSync();
-    
     toast('✅ خوش آمدید!', 'success');
   } else {
     error.textContent = '❌ رمز عبور اشتباه است!';
@@ -1378,7 +1325,6 @@ function logout() {
   }
 }
 
-// Check login state on load
 function checkLogin() {
   if (sessionStorage.getItem('kafinet_logged_in') === 'true') {
     document.getElementById('login-page').classList.add('hidden');
@@ -1389,14 +1335,21 @@ function checkLogin() {
 }
 
 // ──────────────────────────────────────────────────
-// SYNC CONFIG
+// SYNC CONFIG - بهینه برای جلوگیری از Pending Requests
 // ──────────────────────────────────────────────────
 const SYNC_CONFIG = {
   BIN_ID: '6a40c982f5f4af5e293c0148',
   API_KEY: '$2a$10$jBmd6kMLzn8YoMbDgy1i4.6s7/JKmvABz.AijXaNADmYm2tobNSl6',
-  SYNC_INTERVAL: 8000,
-  ENABLED: true
+  ENABLED: true,
+  // هر 2 دقیقه یک بار چک کن (نه 8 ثانیه)
+  CHECK_INTERVAL: 120000,
+  // 3 ثانیه تاخیر قبل از ذخیره برای جمع شدن تغییرات
+  SAVE_DELAY: 3000
 };
+
+let syncTimer = null;
+let pendingChanges = false;
+let isSyncing = false;
 
 // ──────────────────────────────────────────────────
 // DATA STORE
@@ -1508,12 +1461,34 @@ function setSyncStatus(status, msg) {
 }
 
 // ──────────────────────────────────────────────────
-// SYNC FUNCTIONS
+// SMART SYNC - فقط هنگام تغییر و با تاخیر
 // ──────────────────────────────────────────────────
-async function syncToCloud() {
+function autoSync() {
   if (!SYNC_CONFIG.ENABLED) return;
   
+  pendingChanges = true;
+  
+  // اگر تایمر قبلی وجود داشت، آن را لغو کن
+  if (syncTimer) {
+    clearTimeout(syncTimer);
+    syncTimer = null;
+  }
+  
+  // 3 ثانیه صبر کن تا تغییرات جمع شوند
+  syncTimer = setTimeout(() => {
+    if (pendingChanges) {
+      syncToCloud();
+      pendingChanges = false;
+    }
+    syncTimer = null;
+  }, SYNC_CONFIG.SAVE_DELAY);
+}
+
+async function syncToCloud() {
+  if (!SYNC_CONFIG.ENABLED || isSyncing) return;
+  
   try {
+    isSyncing = true;
     setSyncStatus('syncing', '⏳ همگام‌سازی...');
     
     const data = {
@@ -1541,13 +1516,16 @@ async function syncToCloud() {
   } catch (e) {
     console.error('Sync error:', e);
     setSyncStatus('error', '⚠️ خطا در همگام‌سازی');
+  } finally {
+    isSyncing = false;
   }
 }
 
 async function syncFromCloud() {
-  if (!SYNC_CONFIG.ENABLED) return;
+  if (!SYNC_CONFIG.ENABLED || isSyncing) return;
   
   try {
+    isSyncing = true;
     const response = await fetch(`https://api.jsonbin.io/v3/b/${SYNC_CONFIG.BIN_ID}/latest`);
     if (!response.ok) throw new Error('Fetch failed');
     
@@ -1583,19 +1561,19 @@ async function syncFromCloud() {
   } catch (e) {
     console.error('Sync from cloud error:', e);
     setSyncStatus('error', '⚠️ خطا');
+  } finally {
+    isSyncing = false;
   }
-}
-
-function autoSync() {
-  syncToCloud();
 }
 
 function initSync() {
   if (SYNC_CONFIG.ENABLED) {
-    setTimeout(syncFromCloud, 1000);
+    setTimeout(syncFromCloud, 2000);
+    // هر 2 دقیقه یک بار چک کن
     setInterval(() => {
       syncFromCloud();
-    }, SYNC_CONFIG.SYNC_INTERVAL);
+    }, SYNC_CONFIG.CHECK_INTERVAL);
+    setSyncStatus('synced', '✅ همگام (هر ۲ دقیقه)');
   } else {
     setSyncStatus('', '💾 حالت آفلاین');
   }
@@ -2264,7 +2242,6 @@ function saveNote() {
   toast(editingNote?'ویرایش انجام شد':'راهنما ذخیره شد','success');
 }
 
-// Image handling
 function handleImgUpload(files) {
   Array.from(files).forEach(file=>{
     const reader = new FileReader();
@@ -2601,19 +2578,14 @@ if (checkLogin()) {
   loadDashboard();
   initSync();
 } else {
-  // Show login page
   document.getElementById('login-page').classList.remove('hidden');
   document.getElementById('app').style.display = 'none';
-  // Focus on password input
   document.getElementById('login-password').focus();
 }
 
 console.log('🔐 رمز ورود: amiriman1998');
-console.log('📌 برای فعال‌سازی همگام‌سازی بین دستگاه‌ها:');
-console.log('1. به https://jsonbin.io بروید و ثبت‌نام کنید');
-console.log('2. یک Bin جدید بسازید');
-console.log('3. SYNC_CONFIG را در کد با BIN_ID و API_KEY خود پر کنید');
-console.log('4. SYNC_CONFIG.ENABLED = true کنید');
+console.log('✅ همگام‌سازی بهینه شده: هر ۲ دقیقه یک بار');
+console.log('✅ تغییرات با ۳ ثانیه تاخیر ذخیره می‌شوند');
 </script>
 </body>
 </html>
