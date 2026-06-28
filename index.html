@@ -76,6 +76,7 @@
     overflow: hidden;
   }
 
+  /* ── Login Page ── */
   #login-page {
     position: fixed;
     inset: 0;
@@ -176,7 +177,21 @@
     margin-top: 8px;
     min-height: 24px;
   }
+  .login-box .hint {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 16px;
+  }
+  .login-box .hint span {
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    direction: ltr;
+    display: inline-block;
+  }
 
+  /* ── Rest of styles ── */
   #app { display: flex; height: 100vh; overflow: hidden; }
 
   #sidebar {
@@ -293,6 +308,7 @@
     padding: 18px;
     box-shadow: 0 1px 4px var(--shadow);
   }
+  .card-sm { padding: 12px 16px; }
 
   .stat-cards { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
   .stat-card {
@@ -441,6 +457,7 @@
     gap: 8px;
   }
   .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
   .news-cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
   .news-card {
@@ -451,6 +468,7 @@
     min-width: 240px; flex: 1; max-width: 340px;
   }
   .news-card.pinned { background: var(--card-pin); }
+  .news-card.promo { background: var(--card-promo); }
   .news-card-title { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
   .news-card-body { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.7; }
   .news-card-meta { font-size: 11px; color: var(--muted); }
@@ -655,16 +673,27 @@
   #toast.success { background: var(--success); }
   #toast.danger { background: var(--danger); }
 
+  .row { display: flex; gap: 12px; align-items: flex-start; }
   .row-center { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .gap-2 { gap: 8px; }
   .mb-3 { margin-bottom: 12px; }
   .mb-4 { margin-bottom: 16px; }
+  .mb-5 { margin-bottom: 20px; }
   .mt-3 { margin-top: 12px; }
   .flex-1 { flex: 1; }
   .text-muted { color: var(--muted); font-size: 12px; }
   .text-accent { color: var(--accent); }
   .font-bold { font-weight: 700; }
   .divider { height: 1px; background: var(--border); margin: 14px 0; }
+  .tip-box {
+    background: color-mix(in srgb, var(--info) 8%, transparent);
+    border-right: 3px solid var(--info);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 12.5px; color: var(--text2);
+    margin-bottom: 12px;
+    line-height: 1.8;
+  }
 
   #cart-table { max-height: 160px; overflow-y: auto; }
 
@@ -770,24 +799,27 @@
 </head>
 <body>
 
-<!-- LOGIN PAGE -->
+<!-- ══ LOGIN PAGE ══ -->
 <div id="login-page">
   <div class="login-box">
     <div class="logo-icon">K</div>
     <h1>کافینت چنار</h1>
     <div class="sub">مرکز خدمات اینترنتی و ثبت‌ نام اینترنتی</div>
+    
     <div class="field">
       <label>🔑 رمز عبور</label>
       <input type="password" id="login-password" placeholder="رمز عبور را وارد کنید..." onkeydown="if(event.key==='Enter') login()">
     </div>
+    
     <button class="btn" onclick="login()">ورود به سیستم</button>
+    
     <div class="error" id="login-error"></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ══ MAIN APP ══ -->
 <div id="app" style="display:none">
-  <!-- SIDEBAR -->
+  <!-- ══ SIDEBAR ══ -->
   <div id="sidebar">
     <div class="logo-area">
       <div class="logo-icon">K</div>
@@ -830,7 +862,7 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
+  <!-- ══ MAIN ══ -->
   <div id="content">
     <div id="topbar">
       <div style="flex:1">
@@ -841,7 +873,7 @@
       <div class="topbar-date" id="topbar-date"></div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- ══ DASHBOARD ══ -->
     <div class="page active" id="page-dashboard">
       <div class="page-body">
         <div class="stat-cards" id="stat-cards">
@@ -870,10 +902,12 @@
             <div class="stat-label">ثبت‌نام امروز</div>
           </div>
         </div>
+
         <div class="section-header mb-3">
           <div><div class="section-title">📌 اطلاعیه‌های مهم</div></div>
         </div>
         <div class="news-cards" id="dash-news"></div>
+
         <div class="section-header mb-3 mt-3">
           <div class="section-title">🧾 آخرین سفارش‌ها</div>
         </div>
@@ -888,7 +922,7 @@
       </div>
     </div>
 
-    <!-- SERVICES -->
+    <!-- ══ SERVICES ══ -->
     <div class="page" id="page-services">
       <div class="page-body">
         <div class="card mb-4">
@@ -922,7 +956,7 @@
       </div>
     </div>
 
-    <!-- ORDERS -->
+    <!-- ══ ORDERS ══ -->
     <div class="page" id="page-orders">
       <div class="page-body">
         <div class="card mb-4">
@@ -938,7 +972,10 @@
                 <div id="prod-list" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:180px;overflow-y:auto;box-shadow:0 4px 16px var(--shadow-md)"></div>
               </div>
             </div>
-            <div class="field"><label>تعداد</label><input id="order-qty" type="number" value="1" min="1"></div>
+            <div class="field">
+              <label>تعداد</label>
+              <input id="order-qty" type="number" value="1" min="1">
+            </div>
           </div>
           <div class="row-center gap-2">
             <button class="btn btn-primary" onclick="addToCart()">➕ افزودن به سبد</button>
@@ -946,6 +983,7 @@
             <button class="btn btn-danger btn-sm" onclick="clearCart()">🗑️ پاک کردن سبد</button>
           </div>
         </div>
+
         <div class="section-header mb-3">
           <div class="section-title">🛒 سبد خرید</div>
           <div class="font-bold text-accent" id="cart-total">جمع کل: ۰ ریال</div>
@@ -960,6 +998,7 @@
             </div>
           </div>
         </div>
+
         <div class="section-header mb-3">
           <div class="section-title">📋 تاریخچه سفارش‌ها</div>
           <div class="flex-1 search-wrap" style="max-width:300px;margin-right:16px">
@@ -979,7 +1018,7 @@
       </div>
     </div>
 
-    <!-- CUSTOMERS -->
+    <!-- ══ CUSTOMERS ══ -->
     <div class="page" id="page-customers">
       <div class="page-body">
         <div class="card mb-4">
@@ -1014,7 +1053,7 @@
       </div>
     </div>
 
-    <!-- TARIFFS -->
+    <!-- ══ TARIFFS ══ -->
     <div class="page" id="page-tariffs">
       <div class="page-body">
         <div class="card mb-4">
@@ -1041,7 +1080,7 @@
       </div>
     </div>
 
-    <!-- TIPS -->
+    <!-- ══ TIPS / NOTES ══ -->
     <div class="page" id="page-tips">
       <div id="tips-layout">
         <div class="tips-sidebar">
@@ -1076,7 +1115,7 @@
       </div>
     </div>
 
-    <!-- INTERNAL NEWS -->
+    <!-- ══ INTERNAL NEWS ══ -->
     <div class="page" id="page-internal_news">
       <div class="page-body">
         <div class="card mb-4">
@@ -1121,7 +1160,7 @@
       </div>
     </div>
 
-    <!-- REPORTS -->
+    <!-- ══ REPORTS ══ -->
     <div class="page" id="page-reports">
       <div class="page-body">
         <div class="report-tabs" id="report-tabs">
@@ -1130,9 +1169,11 @@
           <button class="report-tab" onclick="showReport('monthly')">📊 ماهانه</button>
           <button class="report-tab" onclick="showReport('all')">📈 کلی</button>
         </div>
+        
         <div class="chart-container">
           <canvas id="revenueChart"></canvas>
         </div>
+        
         <div class="row-center mb-4 gap-2" style="flex-wrap:wrap">
           <button class="btn btn-primary" onclick="reportTopServices()">🏆 پرفروش‌ترین خدمات</button>
           <button class="btn btn-secondary" onclick="reportTopCustomers()">👑 بهترین مشتریان</button>
@@ -1142,6 +1183,7 @@
           <button class="btn btn-secondary" onclick="importData()">📂 وارد کردن JSON</button>
           <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
         </div>
+        
         <div class="row-center mb-3">
           <div class="flex-1 search-wrap">
             <span class="search-icon">🔍</span>
@@ -1157,10 +1199,10 @@
       </div>
     </div>
 
-  </div>
-</div>
+  </div><!-- /content -->
+</div><!-- /app -->
 
-<!-- MODALS -->
+<!-- ══ MODALS ══ -->
 <div class="modal-overlay" id="note-modal">
   <div class="modal">
     <div class="modal-header">
@@ -1168,11 +1210,24 @@
       <button class="modal-close" onclick="closeNoteModal()">✕</button>
     </div>
     <div class="form-grid form-grid-2 mb-3">
-      <div class="field"><label>عنوان راهنما</label><input id="nm-title" placeholder="مثلاً: ثبت‌نام کنکور سراسری"></div>
-      <div class="field"><label>دسته / سرویس</label><input id="nm-folder" list="folder-list" placeholder="مثلاً: کنکور و آموزش"><datalist id="folder-list"></datalist></div>
+      <div class="field">
+        <label>عنوان راهنما</label>
+        <input id="nm-title" placeholder="مثلاً: ثبت‌نام کنکور سراسری">
+      </div>
+      <div class="field">
+        <label>دسته / سرویس</label>
+        <input id="nm-folder" list="folder-list" placeholder="مثلاً: کنکور و آموزش">
+        <datalist id="folder-list"></datalist>
+      </div>
     </div>
-    <div class="field mb-3"><label>متن راهنما و نکات</label><textarea id="nm-body" style="min-height:140px" placeholder="راهنمای مرحله‌به‌مرحله ثبت‌نام را اینجا بنویسید..."></textarea></div>
-    <div class="field mb-3"><label>آدرس سایت (اختیاری)</label><input id="nm-url" placeholder="https://..."></div>
+    <div class="field mb-3">
+      <label>متن راهنما و نکات</label>
+      <textarea id="nm-body" style="min-height:140px" placeholder="راهنمای مرحله‌به‌مرحله ثبت‌نام را اینجا بنویسید..."></textarea>
+    </div>
+    <div class="field mb-3">
+      <label>آدرس سایت (اختیاری)</label>
+      <input id="nm-url" placeholder="https://...">
+    </div>
     <div class="field mb-3">
       <label>📷 بارگذاری تصویر</label>
       <div class="upload-area" id="upload-area" onclick="document.getElementById('img-input').click()"
@@ -1199,8 +1254,14 @@
       <div class="modal-title">✏️ ویرایش سفارش</div>
       <button class="modal-close" onclick="closeOrderEditModal()">✕</button>
     </div>
-    <div class="field mb-3"><label>مشتری</label><select id="order-edit-cust"></select></div>
-    <div class="field mb-3"><label>تاریخ</label><input id="order-edit-date" type="datetime-local"></div>
+    <div class="field mb-3">
+      <label>مشتری</label>
+      <select id="order-edit-cust"></select>
+    </div>
+    <div class="field mb-3">
+      <label>تاریخ</label>
+      <input id="order-edit-date" type="datetime-local">
+    </div>
     <div class="field mb-3">
       <label>وضعیت</label>
       <select id="order-edit-status">
@@ -1214,31 +1275,22 @@
   </div>
 </div>
 
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<!-- Toast -->
 <div id="toast"></div>
 
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
-// ============================================
-// SYNC CONFIG - GitHub Gist
-// ============================================
-// 🔴 اینجا اطلاعات خود را وارد کنید:
-const SYNC_CONFIG = {
-  GIST_ID: 'b1f5c2fe3f8f8bb14c14534a2fedf42c',  // ← GIST_ID خود را وارد کنید
-  GITHUB_TOKEN: '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',    // ← توکن خود را وارد کنید
-  ENABLED: true,
-  CHECK_INTERVAL: 30000,
-  SAVE_DELAY: 3000
-};
-
-// ============================================
-// LOGIN
-// ============================================
+// ══════════════════════════════════════════════════
+// LOGIN SYSTEM
+// ══════════════════════════════════════════════════
 const PASSWORD = 'amiriman1998';
 
 function login() {
@@ -1251,10 +1303,8 @@ function login() {
     document.getElementById('login-page').classList.add('hidden');
     document.getElementById('app').style.display = 'flex';
     sessionStorage.setItem('kafinet_logged_in', 'true');
-    initDB();
     loadDashboard();
     initSync();
-    updateDate();
     toast('✅ خوش آمدید!', 'success');
   } else {
     error.textContent = '❌ رمز عبور اشتباه است!';
@@ -1284,9 +1334,26 @@ function checkLogin() {
   return false;
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
+// SYNC CONFIG - بهینه برای جلوگیری از Pending Requests
+// ──────────────────────────────────────────────────
+const SYNC_CONFIG = {
+  BIN_ID: '6a40c982f5f4af5e293c0148',
+  API_KEY: '$2a$10$jBmd6kMLzn8YoMbDgy1i4.6s7/JKmvABz.AijXaNADmYm2tobNSl6',
+  ENABLED: true,
+  // هر 2 دقیقه یک بار چک کن (نه 8 ثانیه)
+  CHECK_INTERVAL: 120000,
+  // 3 ثانیه تاخیر قبل از ذخیره برای جمع شدن تغییرات
+  SAVE_DELAY: 3000
+};
+
+let syncTimer = null;
+let pendingChanges = false;
+let isSyncing = false;
+
+// ──────────────────────────────────────────────────
 // DATA STORE
-// ============================================
+// ──────────────────────────────────────────────────
 const DB = {
   get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
   set(k, v) { localStorage.setItem(k, JSON.stringify(v)); },
@@ -1336,14 +1403,29 @@ function initDB() {
   ]);
   if (!DB.get('tips')) DB.set('tips', [
     {id:1,folder:'کنکور و آموزش',title:'ثبت‌نام کنکور سراسری',url:'https://sanjesh.org',
-     body:'مرحله ۱: وارد سایت sanjesh.org شوید\nمرحله ۲: روی گزینه «ثبت‌نام» کلیک کنید\nمرحله ۳: کد ملی و اطلاعات شناسنامه‌ای را وارد کنید\nمرحله ۴: رشته و شهر محل سکونت را انتخاب کنید\nمرحله ۵: مدرک تحصیلی و اطلاعات آموزشی را وارد نمایید\nمرحله ۶: عکس ۳×۴ را با فرمت JPG آپلود کنید\nمرحله ۷: هزینه ثبت‌نام را از طریق درگاه پرداخت کنید\nمرحله ۸: کد رهگیری را دریافت و نگهداری کنید',
+     body:`مرحله ۱: وارد سایت sanjesh.org شوید\nمرحله ۲: روی گزینه «ثبت‌نام» کلیک کنید\nمرحله ۳: کد ملی و اطلاعات شناسنامه‌ای را وارد کنید\nمرحله ۴: رشته و شهر محل سکونت را انتخاب کنید\nمرحله ۵: مدرک تحصیلی و اطلاعات آموزشی را وارد نمایید\nمرحله ۶: عکس ۳×۴ را با فرمت JPG آپلود کنید\nمرحله ۷: هزینه ثبت‌نام را از طریق درگاه پرداخت کنید\nمرحله ۸: کد رهگیری را دریافت و نگهداری کنید\n\nنکات مهم:\n- مدارک لازم: کارت ملی، شناسنامه، دیپلم یا گواهی فارغ‌التحصیلی\n- عکس باید رنگی و با پس‌زمینه سفید باشد\n- هزینه ثبت‌نام حدود ۱۵۰ هزار تومان`,
+     images:[],date:today()},
+    {id:2,folder:'کنکور و آموزش',title:'ثبت‌نام دانشگاه آزاد',url:'https://azmoon.org',
+     body:`سایت: azmoon.org\n\nمرحله ۱: بخش پذیرش دانشجو را انتخاب کنید\nمرحله ۲: کد ملی و اطلاعات فردی را وارد کنید\nمرحله ۳: رشته‌های مورد نظر را اولویت‌بندی کنید\nمرحله ۴: مدارک لازم را اسکن و آپلود کنید\nمرحله ۵: هزینه را پرداخت کنید\n\nمدارک مورد نیاز:\n- کارت ملی (اسکن شده)\n- شناسنامه (صفحه اول)\n- دیپلم یا گواهی فارغ‌التحصیلی\n- عکس ۳×۴`,
+     images:[],date:today()},
+    {id:3,folder:'استخدامی',title:'ثبت‌نام آزمون استخدامی دولتی',url:'https://استخدام.ir',
+     body:`سایت: استخدام.ir یا سایت سازمان سنجش\n\nمراحل ثبت‌نام:\n۱. ورود با کد ملی\n۲. انتخاب سازمان و رشته شغلی\n۳. تکمیل فرم مشخصات فردی و تحصیلی\n۴. بارگذاری مدارک\n۵. پرداخت هزینه آزمون\n۶. چاپ کارت شرکت در آزمون\n\nشرایط:\n- داشتن مدرک مرتبط با رشته شغلی\n- عدم اشتغال در دستگاه‌های دولتی (برخی)`,
+     images:[],date:today()},
+    {id:4,folder:'سفارت و ویزا',title:'رزرو نوبت سفارت',url:'',
+     body:`روش رزرو نوبت سفارت‌های مختلف:\n\nسفارت ترکیه: از طریق سایت idata.com.tr\nسفارت شنگن: سایت‌های رسمی هر کشور\nسفارت آمریکا (کانادا): از طریق cgifederal.com\n\nمدارک معمول مورد نیاز:\n- پاسپورت معتبر (حداقل ۶ ماه)\n- عکس پاسپورتی ۳.۵×۴.۵\n- فرم درخواست ویزا (تکمیل‌شده)\n- رزرو هتل و بلیط\n- حساب بانکی\n\nنکته: برای هر سفارت شرایط متفاوت است`,
+     images:[],date:today()},
+    {id:5,folder:'سامانه‌های دولتی',title:'ثبت‌نام سامانه سجام',url:'https://sejam.ir',
+     body:`سامانه جامع اطلاعات مشتریان (سجام) - sejam.ir\n\nمرحله ۱: وارد سایت sejam.ir شوید\nمرحله ۲: ثبت‌نام جدید را انتخاب کنید\nمرحله ۳: کد ملی و اطلاعات بانکی را وارد کنید\nمرحله ۴: احراز هویت از طریق پیامک\nمرحله ۵: در دفاتر پیشخوان دولت مراجعه کنید\n\nاین ثبت‌نام برای سرمایه‌گذاری در بورس ضروری است`,
+     images:[],date:today()},
+    {id:6,folder:'سامانه‌های دولتی',title:'ثبت‌نام سامانه ثنا',url:'https://adliran.ir',
+     body:`سامانه ثنا (ثبت نام احراز هویت الکترونیکی قضایی)\nسایت: adliran.ir\n\nکاربرد: برای دسترسی به خدمات قضایی آنلاین\n\nمراحل:\n۱. وارد سایت adliran.ir شوید\n۲. «ثبت‌نام» را کلیک کنید\n۳. کد ملی و شماره تلفن همراه را وارد کنید\n۴. کد تأیید را دریافت و وارد کنید\n۵: پیامک تأیید دریافت می‌شود`,
      images:[],date:today()},
   ]);
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // UTILS
-// ============================================
+// ──────────────────────────────────────────────────
 function today() {
   return new Date().toLocaleDateString('fa-IR');
 }
@@ -1368,24 +1450,38 @@ function toast(msg, type='') {
 }
 
 function clearSearch(id, fn) {
-  const el = document.getElementById(id);
-  if (el) { el.value = ''; fn(''); }
+  document.getElementById(id).value = '';
+  fn('');
 }
 
 function setSyncStatus(status, msg) {
   const el = document.getElementById('sync-status');
-  if (el) { el.className = status; el.textContent = msg; }
+  el.className = status;
+  el.textContent = msg;
 }
 
-// ============================================
-// SYNC FUNCTIONS - GitHub Gist
-// ============================================
-let syncTimer = null;
-let isSyncing = false;
-let pendingChanges = false;
-
-function getGistUrl() {
-  return `https://api.github.com/gists/${SYNC_CONFIG.GIST_ID}`;
+// ──────────────────────────────────────────────────
+// SMART SYNC - فقط هنگام تغییر و با تاخیر
+// ──────────────────────────────────────────────────
+function autoSync() {
+  if (!SYNC_CONFIG.ENABLED) return;
+  
+  pendingChanges = true;
+  
+  // اگر تایمر قبلی وجود داشت، آن را لغو کن
+  if (syncTimer) {
+    clearTimeout(syncTimer);
+    syncTimer = null;
+  }
+  
+  // 3 ثانیه صبر کن تا تغییرات جمع شوند
+  syncTimer = setTimeout(() => {
+    if (pendingChanges) {
+      syncToCloud();
+      pendingChanges = false;
+    }
+    syncTimer = null;
+  }, SYNC_CONFIG.SAVE_DELAY);
 }
 
 async function syncToCloud() {
@@ -1405,71 +1501,17 @@ async function syncToCloud() {
       tips: DB.get('tips')
     };
     
-    // دریافت Gist فعلی برای گرفتن SHA
-    const getResponse = await fetch(getGistUrl(), {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${SYNC_CONFIG.BIN_ID}`, {
+      method: 'PUT',
       headers: {
-        'Authorization': `token ${SYNC_CONFIG.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
-    
-    if (!getResponse.ok) {
-      // اگر Gist وجود نداشت، یک Gist جدید بساز
-      if (getResponse.status === 404) {
-        const createResponse = await fetch('https://api.github.com/gists', {
-          method: 'POST',
-          headers: {
-            'Authorization': `token ${SYNC_CONFIG.GITHUB_TOKEN}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify({
-            description: 'داده‌های کافینت',
-            public: true,
-            files: {
-              'kafinet-data.json': {
-                content: JSON.stringify(data, null, 2)
-              }
-            }
-          })
-        });
-        if (!createResponse.ok) throw new Error('Failed to create gist');
-        setSyncStatus('synced', '✅ Gist ساخته شد');
-        return;
-      }
-      throw new Error('Failed to get gist');
-    }
-    
-    const gistData = await getResponse.json();
-    const fileSha = gistData.files['kafinet-data.json']?.sha || null;
-    
-    // آپدیت Gist
-    const updateData = {
-      files: {
-        'kafinet-data.json': {
-          content: JSON.stringify(data, null, 2)
-        }
-      }
-    };
-    
-    if (fileSha) {
-      updateData.files['kafinet-data.json'].sha = fileSha;
-    }
-    
-    const updateResponse = await fetch(getGistUrl(), {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `token ${SYNC_CONFIG.GITHUB_TOKEN}`,
         'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
+        'X-Master-Key': SYNC_CONFIG.API_KEY
       },
-      body: JSON.stringify(updateData)
+      body: JSON.stringify(data)
     });
     
-    if (!updateResponse.ok) throw new Error('Sync failed');
-    
+    if (!response.ok) throw new Error('Sync failed');
     setSyncStatus('synced', '✅ همگام شد');
-    pendingChanges = false;
     
   } catch (e) {
     console.error('Sync error:', e);
@@ -1484,30 +1526,11 @@ async function syncFromCloud() {
   
   try {
     isSyncing = true;
-    const response = await fetch(getGistUrl(), {
-      headers: {
-        'Authorization': `token ${SYNC_CONFIG.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${SYNC_CONFIG.BIN_ID}/latest`);
+    if (!response.ok) throw new Error('Fetch failed');
     
-    if (!response.ok) {
-      if (response.status === 404) {
-        setSyncStatus('', '💾 Gist یافت نشد');
-        return;
-      }
-      throw new Error('Fetch failed');
-    }
-    
-    const gistData = await response.json();
-    const content = gistData.files['kafinet-data.json']?.content;
-    
-    if (!content) {
-      setSyncStatus('', '💾 داده‌ای وجود ندارد');
-      return;
-    }
-    
-    const data = JSON.parse(content);
+    const result = await response.json();
+    const data = result.record;
     
     let changed = false;
     const tables = ['services', 'customers', 'orders', 'order_items', 'tariffs', 'internal_news', 'tips'];
@@ -1543,40 +1566,83 @@ async function syncFromCloud() {
   }
 }
 
-function autoSync() {
-  if (!SYNC_CONFIG.ENABLED) return;
-  
-  pendingChanges = true;
-  
-  if (syncTimer) {
-    clearTimeout(syncTimer);
-    syncTimer = null;
-  }
-  
-  syncTimer = setTimeout(() => {
-    if (pendingChanges) {
-      syncToCloud();
-      pendingChanges = false;
-    }
-    syncTimer = null;
-  }, SYNC_CONFIG.SAVE_DELAY);
-}
-
 function initSync() {
   if (SYNC_CONFIG.ENABLED) {
     setTimeout(syncFromCloud, 2000);
+    // هر 2 دقیقه یک بار چک کن
     setInterval(() => {
       syncFromCloud();
     }, SYNC_CONFIG.CHECK_INTERVAL);
-    setSyncStatus('synced', '✅ همگام با گیت‌هاب');
+    setSyncStatus('synced', '✅ همگام (هر ۲ دقیقه)');
   } else {
     setSyncStatus('', '💾 حالت آفلاین');
   }
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
+// EXPORT / IMPORT DATA
+// ──────────────────────────────────────────────────
+function exportData() {
+  const data = {
+    services: DB.get('services'),
+    customers: DB.get('customers'),
+    orders: DB.get('orders'),
+    order_items: DB.get('order_items'),
+    tariffs: DB.get('tariffs'),
+    internal_news: DB.get('internal_news'),
+    tips: DB.get('tips'),
+    export_date: nowStr()
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kafinet_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('فایل ذخیره شد ✅', 'success');
+}
+
+function importData() {
+  document.getElementById('import-file').click();
+}
+
+function handleImport(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      const tables = ['services', 'customers', 'orders', 'order_items', 'tariffs', 'internal_news', 'tips'];
+      let count = 0;
+      
+      tables.forEach(key => {
+        if (data[key]) {
+          DB.set(key, data[key]);
+          count++;
+        }
+      });
+      
+      toast(`${count} جدول با موفقیت وارد شد ✅`, 'success');
+      const activePage = document.querySelector('.page.active');
+      if (activePage) {
+        const id = activePage.id.replace('page-', '');
+        onPageLoad(id);
+      }
+    } catch (err) {
+      toast('فایل نامعتبر است ❌', 'danger');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ──────────────────────────────────────────────────
 // NAVIGATION
-// ============================================
+// ──────────────────────────────────────────────────
 const pageInfo = {
   dashboard: {title:'داشبورد', sub:'خلاصه وضعیت کافینت'},
   services:  {title:'خدمات و سرویس‌ها', sub:'مدیریت خدمات کافینت'},
@@ -1591,14 +1657,10 @@ const pageInfo = {
 function showPage(key) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const page = document.getElementById('page-'+key);
-  if (page) page.classList.add('active');
-  const navItem = document.querySelector(`.nav-item[onclick="showPage('${key}')"]`);
-  if (navItem) navItem.classList.add('active');
-  if (pageInfo[key]) {
-    document.getElementById('topbar-title').textContent = pageInfo[key].title || '';
-    document.getElementById('topbar-sub').textContent = pageInfo[key].sub || '';
-  }
+  document.getElementById('page-'+key).classList.add('active');
+  document.querySelector(`.nav-item[onclick="showPage('${key}')"]`)?.classList.add('active');
+  document.getElementById('topbar-title').textContent = pageInfo[key]?.title || '';
+  document.getElementById('topbar-sub').textContent = pageInfo[key]?.sub || '';
   onPageLoad(key);
 }
 
@@ -1613,9 +1675,9 @@ function onPageLoad(key) {
   else if (key==='reports') showReport('daily');
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // DASHBOARD
-// ============================================
+// ──────────────────────────────────────────────────
 function loadDashboard() {
   const svcs = DB.get('services')||[];
   const custs = DB.get('customers')||[];
@@ -1672,9 +1734,9 @@ function loadDashboard() {
   }
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // SERVICES
-// ============================================
+// ──────────────────────────────────────────────────
 let selService = null;
 let allServices = [];
 
@@ -1687,7 +1749,7 @@ function renderServices(data) {
   const tbody = document.getElementById('svc-table');
   tbody.innerHTML = '';
   if (!data.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="5">هیچ خدمتی ثبت نشده</td></tr>'; return; }
-  data.forEach((s)=>{
+  data.forEach((s,i)=>{
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${s.id}</td><td>${s.name}</td>
       <td><span class="badge badge-accent">${s.category||'-'}</span></td>
@@ -1738,9 +1800,9 @@ function filterServices(q) {
   renderServices(nq ? allServices.filter(s=>norm(s.name).includes(nq)||norm(s.category).includes(nq)) : allServices);
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // ORDERS
-// ============================================
+// ──────────────────────────────────────────────────
 let cart = [];
 let allOrders = [];
 let selProd = null;
@@ -1917,9 +1979,9 @@ function filterOrders(q) {
   renderOrders(nq ? allOrders.filter(o=>norm(custMap[o.customer_id]||'').includes(nq)||String(o.id).includes(nq)) : allOrders);
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // CUSTOMERS
-// ============================================
+// ──────────────────────────────────────────────────
 let selCust = null;
 let allCustomers = [];
 
@@ -1982,9 +2044,9 @@ function filterCustomers(q) {
   renderCustomers(nq?allCustomers.filter(c=>norm(c.first_name+c.last_name).includes(nq)||norm(c.phone||'').includes(nq)):allCustomers);
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // TARIFFS
-// ============================================
+// ──────────────────────────────────────────────────
 let selTariff = null;
 
 function loadTariffs() {
@@ -2025,9 +2087,9 @@ function deleteTariff() {
   selTariff=null; loadTariffs(); autoSync();
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // TIPS / NOTES
-// ============================================
+// ──────────────────────────────────────────────────
 let currentNote = null;
 let editingNote = null;
 let pendingImgs = [];
@@ -2214,9 +2276,9 @@ function openLightbox(src) {
 }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // INTERNAL NEWS
-// ============================================
+// ──────────────────────────────────────────────────
 let selNews = null;
 let allNews = [];
 
@@ -2275,9 +2337,9 @@ function filterNews(q) {
   renderNews(nq?allNews.filter(n=>norm(n.title).includes(nq)||norm(n.content||'').includes(nq)):allNews);
 }
 
-// ============================================
-// REPORTS
-// ============================================
+// ──────────────────────────────────────────────────
+// REPORTS WITH CHART
+// ──────────────────────────────────────────────────
 let repAllData = [];
 let repCols = [];
 let revenueChart = null;
@@ -2371,7 +2433,9 @@ function showReport(type) {
 function updateChart(labels, values, title) {
   const ctx = document.getElementById('revenueChart').getContext('2d');
   
-  if (revenueChart) { revenueChart.destroy(); }
+  if (revenueChart) {
+    revenueChart.destroy();
+  }
   
   const isDark = document.documentElement.dataset.theme === 'dark';
   const textColor = isDark ? '#EEEEF2' : '#1A1F36';
@@ -2395,17 +2459,33 @@ function updateChart(labels, values, title) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: textColor } },
-        title: { display: true, text: title, color: textColor, font: { size: 16, weight: 'bold', family: 'Vazirmatn' } }
+        legend: {
+          labels: { color: textColor }
+        },
+        title: {
+          display: true,
+          text: title,
+          color: textColor,
+          font: { size: 16, weight: 'bold', family: 'Vazirmatn' }
+        }
       },
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { color: textColor, callback: function(value) { return value.toLocaleString('fa-IR') + ' ریال'; } },
+          ticks: {
+            color: textColor,
+            callback: function(value) {
+              return value.toLocaleString('fa-IR') + ' ریال';
+            }
+          },
           grid: { color: gridColor }
         },
         x: {
-          ticks: { color: textColor, maxRotation: 45, font: { size: 10 } },
+          ticks: {
+            color: textColor,
+            maxRotation: 45,
+            font: { size: 10 }
+          },
           grid: { color: gridColor }
         }
       }
@@ -2461,70 +2541,9 @@ function filterReport(q) {
   filtered.forEach(row=>{ const tr=document.createElement('tr'); tr.innerHTML=row.map(v=>`<td>${v}</td>`).join(''); tbody.appendChild(tr); });
 }
 
-// ============================================
-// EXPORT / IMPORT
-// ============================================
-function exportData() {
-  const data = {
-    services: DB.get('services'),
-    customers: DB.get('customers'),
-    orders: DB.get('orders'),
-    order_items: DB.get('order_items'),
-    tariffs: DB.get('tariffs'),
-    internal_news: DB.get('internal_news'),
-    tips: DB.get('tips'),
-    export_date: nowStr()
-  };
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `kafinet_backup_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('فایل ذخیره شد ✅', 'success');
-}
-
-function importData() {
-  document.getElementById('import-file').click();
-}
-
-function handleImport(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      const tables = ['services', 'customers', 'orders', 'order_items', 'tariffs', 'internal_news', 'tips'];
-      let count = 0;
-      
-      tables.forEach(key => {
-        if (data[key]) {
-          DB.set(key, data[key]);
-          count++;
-        }
-      });
-      
-      toast(`${count} جدول با موفقیت وارد شد ✅`, 'success');
-      const activePage = document.querySelector('.page.active');
-      if (activePage) {
-        const id = activePage.id.replace('page-', '');
-        onPageLoad(id);
-      }
-    } catch (err) {
-      toast('فایل نامعتبر است ❌', 'danger');
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-// ============================================
+// ──────────────────────────────────────────────────
 // THEME
-// ============================================
+// ──────────────────────────────────────────────────
 function toggleTheme() {
   const isDark = document.documentElement.dataset.theme==='dark';
   document.documentElement.dataset.theme = isDark?'':'dark';
@@ -2536,18 +2555,17 @@ function toggleTheme() {
   }
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // DATE
-// ============================================
+// ──────────────────────────────────────────────────
 function updateDate() {
   const d = new Date().toLocaleString('fa-IR');
-  const el = document.getElementById('topbar-date');
-  if (el) el.textContent = '📅 ' + d;
+  document.getElementById('topbar-date').textContent = '📅 ' + d;
 }
 
-// ============================================
+// ──────────────────────────────────────────────────
 // INIT
-// ============================================
+// ──────────────────────────────────────────────────
 if (checkLogin()) {
   initDB();
   if (localStorage.getItem('theme')==='dark') { 
@@ -2566,10 +2584,8 @@ if (checkLogin()) {
 }
 
 console.log('🔐 رمز ورود: amiriman1998');
-console.log('📌 اطلاعات Gist خود را در SYNC_CONFIG وارد کنید:');
-console.log(`   GIST_ID: ${SYNC_CONFIG.GIST_ID}`);
-console.log('   GITHUB_TOKEN: ********');
-console.log('✅ داده‌ها روی GitHub Gist ذخیره می‌شوند');
+console.log('✅ همگام‌سازی بهینه شده: هر ۲ دقیقه یک بار');
+console.log('✅ تغییرات با ۳ ثانیه تاخیر ذخیره می‌شوند');
 </script>
 </body>
 </html>
