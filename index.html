@@ -76,10 +76,126 @@
     overflow: hidden;
   }
 
-  /* ── Layout ── */
+  /* ── Login Page ── */
+  #login-page {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: all 0.5s ease;
+  }
+  #login-page.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.05);
+  }
+  .login-box {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    width: 400px;
+    max-width: 90vw;
+    box-shadow: 0 8px 40px var(--shadow-md);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .login-box .logo-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--accent);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--btn-text);
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(26,86,196,0.3);
+  }
+  .login-box h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .login-box .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .login-box .field {
+    text-align: right;
+    margin-bottom: 16px;
+  }
+  .login-box .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 4px;
+  }
+  .login-box .field input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .login-box .field input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+  .login-box .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--btn-text);
+    transition: background 0.15s;
+  }
+  .login-box .btn:hover {
+    background: var(--accent-h);
+  }
+  .login-box .error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 8px;
+    min-height: 24px;
+  }
+  .login-box .hint {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 16px;
+  }
+  .login-box .hint span {
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    direction: ltr;
+    display: inline-block;
+  }
+
+  /* ── Rest of styles (same as before) ── */
+  /* Layout */
   #app { display: flex; height: 100vh; overflow: hidden; }
 
-  /* ── Sidebar ── */
+  /* Sidebar */
   #sidebar {
     width: var(--sidebar-w);
     min-width: var(--sidebar-w);
@@ -154,7 +270,7 @@
     border-top: 1px solid var(--border);
   }
 
-  /* ── Main Content ── */
+  /* Main Content */
   #content {
     flex: 1;
     display: flex;
@@ -163,7 +279,7 @@
     background: var(--bg);
   }
 
-  /* ── Top Bar ── */
+  /* Top Bar */
   #topbar {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -178,7 +294,7 @@
   .topbar-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .topbar-date { font-size: 12px; color: var(--muted); text-align: left; }
 
-  /* ── Pages ── */
+  /* Pages */
   .page { display: none; flex: 1; flex-direction: column; overflow: hidden; }
   .page.active { display: flex; }
   
@@ -190,7 +306,7 @@
   .page-body::-webkit-scrollbar { width: 6px; }
   .page-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-  /* ── Cards ── */
+  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -225,7 +341,7 @@
   }
   .stat-label { font-size: 12px; color: var(--muted); }
 
-  /* ── Buttons ── */
+  /* Buttons */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     padding: 8px 16px;
@@ -245,7 +361,7 @@
   .btn-success:hover { background: #155d38; }
   .btn-sm { padding: 5px 11px; font-size: 12px; }
 
-  /* ── Form ── */
+  /* Form */
   .form-grid { display: grid; gap: 12px; }
   .form-grid-2 { grid-template-columns: 1fr 1fr; }
   .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -270,7 +386,7 @@
   }
   .field textarea { resize: vertical; min-height: 90px; }
 
-  /* ── Search Bar ── */
+  /* Search Bar */
   .search-wrap {
     position: relative;
     display: flex;
@@ -301,7 +417,7 @@
     color: var(--muted); cursor: pointer; font-size: 13px;
   }
 
-  /* ── Table ── */
+  /* Table */
   .table-wrap {
     overflow: auto;
     border: 1px solid var(--border);
@@ -332,7 +448,7 @@
   tbody td { padding: 11px 14px; text-align: center; color: var(--text); }
   .empty-row td { color: var(--muted); text-align: center; padding: 32px; }
 
-  /* ── Badge ── */
+  /* Badge */
   .badge {
     display: inline-flex; align-items: center;
     padding: 2px 8px; border-radius: 20px;
@@ -345,7 +461,7 @@
   .badge-purple { background: color-mix(in srgb, var(--purple) 15%, transparent); color: var(--purple); }
   .badge-muted { background: var(--surface3); color: var(--muted); }
 
-  /* ── Section Header ── */
+  /* Section Header */
   .section-header {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 14px;
@@ -355,7 +471,7 @@
   .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
   .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-  /* ── News Cards ── */
+  /* News Cards */
   .news-cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
   .news-card {
     background: var(--card-news);
@@ -370,7 +486,7 @@
   .news-card-body { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.7; }
   .news-card-meta { font-size: 11px; color: var(--muted); }
 
-  /* ── Toggle ── */
+  /* Toggle */
   .toggle-btn {
     display: flex; align-items: center; gap: 8px;
     padding: 7px 14px; border-radius: 20px;
@@ -383,7 +499,7 @@
   .toggle-btn:hover { border-color: var(--accent); }
   .toggle-btn.on { background: var(--accent); color: var(--btn-text); border-color: var(--accent); }
 
-  /* ── Tips/Notes Section ── */
+  /* Tips/Notes Section */
   .tips-sidebar {
     width: 280px; min-width: 220px;
     background: var(--surface);
@@ -500,7 +616,7 @@
     align-items: center; justify-content: center;
   }
 
-  /* ── Upload area ── */
+  /* Upload area */
   .upload-area {
     border: 2px dashed var(--border);
     border-radius: var(--radius);
@@ -537,7 +653,7 @@
     font-size: 10px; display: flex; align-items: center; justify-content: center;
   }
 
-  /* ── Modal ── */
+  /* Modal */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
     background: rgba(0,0,0,0.5);
@@ -562,7 +678,7 @@
   .modal-close:hover { color: var(--danger); }
   .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
-  /* ── Toast ── */
+  /* Toast */
   #toast {
     position: fixed; bottom: 24px; left: 24px; z-index: 2000;
     background: var(--text); color: #fff;
@@ -577,7 +693,7 @@
   #toast.success { background: var(--success); }
   #toast.danger { background: var(--danger); }
 
-  /* ── Misc ── */
+  /* Misc */
   .row { display: flex; gap: 12px; align-items: flex-start; }
   .row-center { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .gap-2 { gap: 8px; }
@@ -627,6 +743,7 @@
     .page-body { padding: 12px; }
     .form-grid-4 { grid-template-columns: 1fr 1fr; }
     .tips-sidebar { width: 180px; min-width: 140px; }
+    .login-box { padding: 30px 20px; }
   }
 
   /* tips layout */
@@ -682,10 +799,49 @@
     color: var(--btn-text);
     border-color: var(--accent);
   }
+
+  /* ── Login button styles ── */
+  .logout-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .logout-btn:hover {
+    background: var(--danger);
+    color: #fff;
+    border-color: var(--danger);
+  }
 </style>
 </head>
 <body>
-<div id="app">
+
+<!-- ══ LOGIN PAGE ══ -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="logo-icon">K</div>
+    <h1>کافینت</h1>
+    <div class="sub">مرکز خدمات اینترنتی و ثبت‌نام</div>
+    
+    <div class="field">
+      <label>🔑 رمز عبور</label>
+      <input type="password" id="login-password" placeholder="رمز عبور را وارد کنید..." onkeydown="if(event.key==='Enter') login()">
+    </div>
+    
+    <button class="btn" onclick="login()">ورود به سیستم</button>
+    
+    <div class="error" id="login-error"></div>
+    <div class="hint">رمز پیش‌فرض: <span>amiriman1998</span></div>
+  </div>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="app" style="display:none">
   <!-- ══ SIDEBAR ══ -->
   <div id="sidebar">
     <div class="logo-area">
@@ -722,8 +878,11 @@
       </div>
     </nav>
     <div class="sidebar-bottom">
-      <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()" style="width:100%;justify-content:center;">
+      <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()" style="width:100%;justify-content:center;margin-bottom:6px;">
         🌙 تم تاریک
+      </button>
+      <button class="logout-btn" onclick="logout()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:6px;">
+        🚪 خروج
       </button>
     </div>
   </div>
@@ -1177,23 +1336,71 @@
 
 <script>
 // ══════════════════════════════════════════════════
-// SYNC CONFIG - استفاده از JSONBin برای همگام‌سازی
+// LOGIN SYSTEM
 // ══════════════════════════════════════════════════
-// 📌 برای استفاده: 
-// 1. به https://jsonbin.io بروید و ثبت‌نام کنید
-// 2. یک Bin جدید بسازید (Public)
-// 3. BIN_ID و API_KEY را از پنل خود دریافت کنید
-// 4. مقادیر زیر را جایگزین کنید:
+const PASSWORD = 'amiriman1998';
+
+function login() {
+  const input = document.getElementById('login-password');
+  const error = document.getElementById('login-error');
+  const pass = input.value.trim();
+  
+  if (pass === PASSWORD) {
+    // Login successful
+    error.textContent = '';
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('app').style.display = 'flex';
+    
+    // Save login state in session (not localStorage for security)
+    sessionStorage.setItem('kafinet_logged_in', 'true');
+    
+    // Load the app
+    loadDashboard();
+    initSync();
+    
+    toast('✅ خوش آمدید!', 'success');
+  } else {
+    error.textContent = '❌ رمز عبور اشتباه است!';
+    input.value = '';
+    input.focus();
+    input.style.borderColor = 'var(--danger)';
+    setTimeout(() => { input.style.borderColor = ''; }, 2000);
+  }
+}
+
+function logout() {
+  if (confirm('آیا از خروج مطمئن هستید؟')) {
+    sessionStorage.removeItem('kafinet_logged_in');
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-page').classList.remove('hidden');
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password').focus();
+  }
+}
+
+// Check login state on load
+function checkLogin() {
+  if (sessionStorage.getItem('kafinet_logged_in') === 'true') {
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('app').style.display = 'flex';
+    return true;
+  }
+  return false;
+}
+
+// ──────────────────────────────────────────────────
+// SYNC CONFIG
+// ──────────────────────────────────────────────────
 const SYNC_CONFIG = {
-  BIN_ID: '6a40c982f5f4af5e293c0148',        // ← ID بن خود را وارد کنید
-  API_KEY: '$2a$10$jBmd6kMLzn8YoMbDgy1i4.6s7/JKmvABz.AijXaNADmYm2tobNSl6',      // ← کلید API خود را وارد کنید
-  SYNC_INTERVAL: 8000,          // هر 8 ثانیه همگام‌سازی
-  ENABLED: true                // true کنید تا فعال شود
+  BIN_ID: '6a40c982f5f4af5e293c0148',
+  API_KEY: '$2a$10$jBmd6kMLzn8YoMbDgy1i4.6s7/JKmvABz.AijXaNADmYm2tobNSl6',
+  SYNC_INTERVAL: 8000,
+  ENABLED: true
 };
 
-// ══════════════════════════════════════════════════
-// DATA STORE (localStorage)
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
+// DATA STORE
+// ──────────────────────────────────────────────────
 const DB = {
   get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
   set(k, v) { localStorage.setItem(k, JSON.stringify(v)); },
@@ -1243,96 +1450,29 @@ function initDB() {
   ]);
   if (!DB.get('tips')) DB.set('tips', [
     {id:1,folder:'کنکور و آموزش',title:'ثبت‌نام کنکور سراسری',url:'https://sanjesh.org',
-     body:`مرحله ۱: وارد سایت sanjesh.org شوید
-مرحله ۲: روی گزینه «ثبت‌نام» کلیک کنید
-مرحله ۳: کد ملی و اطلاعات شناسنامه‌ای را وارد کنید
-مرحله ۴: رشته و شهر محل سکونت را انتخاب کنید
-مرحله ۵: مدرک تحصیلی و اطلاعات آموزشی را وارد نمایید
-مرحله ۶: عکس ۳×۴ را با فرمت JPG آپلود کنید
-مرحله ۷: هزینه ثبت‌نام را از طریق درگاه پرداخت کنید
-مرحله ۸: کد رهگیری را دریافت و نگهداری کنید
-
-نکات مهم:
-- مدارک لازم: کارت ملی، شناسنامه، دیپلم یا گواهی فارغ‌التحصیلی
-- عکس باید رنگی و با پس‌زمینه سفید باشد
-- هزینه ثبت‌نام حدود ۱۵۰ هزار تومان`,
+     body:`مرحله ۱: وارد سایت sanjesh.org شوید\nمرحله ۲: روی گزینه «ثبت‌نام» کلیک کنید\nمرحله ۳: کد ملی و اطلاعات شناسنامه‌ای را وارد کنید\nمرحله ۴: رشته و شهر محل سکونت را انتخاب کنید\nمرحله ۵: مدرک تحصیلی و اطلاعات آموزشی را وارد نمایید\nمرحله ۶: عکس ۳×۴ را با فرمت JPG آپلود کنید\nمرحله ۷: هزینه ثبت‌نام را از طریق درگاه پرداخت کنید\nمرحله ۸: کد رهگیری را دریافت و نگهداری کنید\n\nنکات مهم:\n- مدارک لازم: کارت ملی، شناسنامه، دیپلم یا گواهی فارغ‌التحصیلی\n- عکس باید رنگی و با پس‌زمینه سفید باشد\n- هزینه ثبت‌نام حدود ۱۵۰ هزار تومان`,
      images:[],date:today()},
     {id:2,folder:'کنکور و آموزش',title:'ثبت‌نام دانشگاه آزاد',url:'https://azmoon.org',
-     body:`سایت: azmoon.org
-
-مرحله ۱: بخش پذیرش دانشجو را انتخاب کنید
-مرحله ۲: کد ملی و اطلاعات فردی را وارد کنید
-مرحله ۳: رشته‌های مورد نظر را اولویت‌بندی کنید
-مرحله ۴: مدارک لازم را اسکن و آپلود کنید
-مرحله ۵: هزینه را پرداخت کنید
-
-مدارک مورد نیاز:
-- کارت ملی (اسکن شده)
-- شناسنامه (صفحه اول)
-- دیپلم یا گواهی فارغ‌التحصیلی
-- عکس ۳×۴`,
+     body:`سایت: azmoon.org\n\nمرحله ۱: بخش پذیرش دانشجو را انتخاب کنید\nمرحله ۲: کد ملی و اطلاعات فردی را وارد کنید\nمرحله ۳: رشته‌های مورد نظر را اولویت‌بندی کنید\nمرحله ۴: مدارک لازم را اسکن و آپلود کنید\nمرحله ۵: هزینه را پرداخت کنید\n\nمدارک مورد نیاز:\n- کارت ملی (اسکن شده)\n- شناسنامه (صفحه اول)\n- دیپلم یا گواهی فارغ‌التحصیلی\n- عکس ۳×۴`,
      images:[],date:today()},
     {id:3,folder:'استخدامی',title:'ثبت‌نام آزمون استخدامی دولتی',url:'https://استخدام.ir',
-     body:`سایت: استخدام.ir یا سایت سازمان سنجش
-
-مراحل ثبت‌نام:
-۱. ورود با کد ملی
-۲. انتخاب سازمان و رشته شغلی
-۳. تکمیل فرم مشخصات فردی و تحصیلی
-۴. بارگذاری مدارک
-۵. پرداخت هزینه آزمون
-۶. چاپ کارت شرکت در آزمون
-
-شرایط:
-- داشتن مدرک مرتبط با رشته شغلی
-- عدم اشتغال در دستگاه‌های دولتی (برخی)`,
+     body:`سایت: استخدام.ir یا سایت سازمان سنجش\n\nمراحل ثبت‌نام:\n۱. ورود با کد ملی\n۲. انتخاب سازمان و رشته شغلی\n۳. تکمیل فرم مشخصات فردی و تحصیلی\n۴. بارگذاری مدارک\n۵. پرداخت هزینه آزمون\n۶. چاپ کارت شرکت در آزمون\n\nشرایط:\n- داشتن مدرک مرتبط با رشته شغلی\n- عدم اشتغال در دستگاه‌های دولتی (برخی)`,
      images:[],date:today()},
     {id:4,folder:'سفارت و ویزا',title:'رزرو نوبت سفارت',url:'',
-     body:`روش رزرو نوبت سفارت‌های مختلف:
-
-سفارت ترکیه: از طریق سایت idata.com.tr
-سفارت شنگن: سایت‌های رسمی هر کشور
-سفارت آمریکا (کانادا): از طریق cgifederal.com
-
-مدارک معمول مورد نیاز:
-- پاسپورت معتبر (حداقل ۶ ماه)
-- عکس پاسپورتی ۳.۵×۴.۵
-- فرم درخواست ویزا (تکمیل‌شده)
-- رزرو هتل و بلیط
-- حساب بانکی
-
-نکته: برای هر سفارت شرایط متفاوت است`,
+     body:`روش رزرو نوبت سفارت‌های مختلف:\n\nسفارت ترکیه: از طریق سایت idata.com.tr\nسفارت شنگن: سایت‌های رسمی هر کشور\nسفارت آمریکا (کانادا): از طریق cgifederal.com\n\nمدارک معمول مورد نیاز:\n- پاسپورت معتبر (حداقل ۶ ماه)\n- عکس پاسپورتی ۳.۵×۴.۵\n- فرم درخواست ویزا (تکمیل‌شده)\n- رزرو هتل و بلیط\n- حساب بانکی\n\nنکته: برای هر سفارت شرایط متفاوت است`,
      images:[],date:today()},
     {id:5,folder:'سامانه‌های دولتی',title:'ثبت‌نام سامانه سجام',url:'https://sejam.ir',
-     body:`سامانه جامع اطلاعات مشتریان (سجام) - sejam.ir
-
-مرحله ۱: وارد سایت sejam.ir شوید
-مرحله ۲: ثبت‌نام جدید را انتخاب کنید
-مرحله ۳: کد ملی و اطلاعات بانکی را وارد کنید
-مرحله ۴: احراز هویت از طریق پیامک
-مرحله ۵: در دفاتر پیشخوان دولت مراجعه کنید
-
-این ثبت‌نام برای سرمایه‌گذاری در بورس ضروری است`,
+     body:`سامانه جامع اطلاعات مشتریان (سجام) - sejam.ir\n\nمرحله ۱: وارد سایت sejam.ir شوید\nمرحله ۲: ثبت‌نام جدید را انتخاب کنید\nمرحله ۳: کد ملی و اطلاعات بانکی را وارد کنید\nمرحله ۴: احراز هویت از طریق پیامک\nمرحله ۵: در دفاتر پیشخوان دولت مراجعه کنید\n\nاین ثبت‌نام برای سرمایه‌گذاری در بورس ضروری است`,
      images:[],date:today()},
     {id:6,folder:'سامانه‌های دولتی',title:'ثبت‌نام سامانه ثنا',url:'https://adliran.ir',
-     body:`سامانه ثنا (ثبت نام احراز هویت الکترونیکی قضایی)
-سایت: adliran.ir
-
-کاربرد: برای دسترسی به خدمات قضایی آنلاین
-
-مراحل:
-۱. وارد سایت adliran.ir شوید
-۲. «ثبت‌نام» را کلیک کنید
-۳. کد ملی و شماره تلفن همراه را وارد کنید
-۴. کد تأیید را دریافت و وارد کنید
-۵: پیامک تأیید دریافت می‌شود`,
+     body:`سامانه ثنا (ثبت نام احراز هویت الکترونیکی قضایی)\nسایت: adliran.ir\n\nکاربرد: برای دسترسی به خدمات قضایی آنلاین\n\nمراحل:\n۱. وارد سایت adliran.ir شوید\n۲. «ثبت‌نام» را کلیک کنید\n۳. کد ملی و شماره تلفن همراه را وارد کنید\n۴. کد تأیید را دریافت و وارد کنید\n۵: پیامک تأیید دریافت می‌شود`,
      images:[],date:today()},
   ]);
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // UTILS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 function today() {
   return new Date().toLocaleDateString('fa-IR');
 }
@@ -1367,9 +1507,9 @@ function setSyncStatus(status, msg) {
   el.textContent = msg;
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // SYNC FUNCTIONS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 async function syncToCloud() {
   if (!SYNC_CONFIG.ENABLED) return;
   
@@ -1450,9 +1590,20 @@ function autoSync() {
   syncToCloud();
 }
 
-// ══════════════════════════════════════════════════
+function initSync() {
+  if (SYNC_CONFIG.ENABLED) {
+    setTimeout(syncFromCloud, 1000);
+    setInterval(() => {
+      syncFromCloud();
+    }, SYNC_CONFIG.SYNC_INTERVAL);
+  } else {
+    setSyncStatus('', '💾 حالت آفلاین');
+  }
+}
+
+// ──────────────────────────────────────────────────
 // EXPORT / IMPORT DATA
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 function exportData() {
   const data = {
     services: DB.get('services'),
@@ -1498,7 +1649,6 @@ function handleImport(event) {
       });
       
       toast(`${count} جدول با موفقیت وارد شد ✅`, 'success');
-      // Refresh current page
       const activePage = document.querySelector('.page.active');
       if (activePage) {
         const id = activePage.id.replace('page-', '');
@@ -1512,9 +1662,9 @@ function handleImport(event) {
   event.target.value = '';
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // NAVIGATION
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 const pageInfo = {
   dashboard: {title:'داشبورد', sub:'خلاصه وضعیت کافینت'},
   services:  {title:'خدمات و سرویس‌ها', sub:'مدیریت خدمات کافینت'},
@@ -1547,9 +1697,9 @@ function onPageLoad(key) {
   else if (key==='reports') showReport('daily');
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // DASHBOARD
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 function loadDashboard() {
   const svcs = DB.get('services')||[];
   const custs = DB.get('customers')||[];
@@ -1606,9 +1756,9 @@ function loadDashboard() {
   }
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // SERVICES
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let selService = null;
 let allServices = [];
 
@@ -1672,9 +1822,9 @@ function filterServices(q) {
   renderServices(nq ? allServices.filter(s=>norm(s.name).includes(nq)||norm(s.category).includes(nq)) : allServices);
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // ORDERS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let cart = [];
 let allOrders = [];
 let selProd = null;
@@ -1851,9 +2001,9 @@ function filterOrders(q) {
   renderOrders(nq ? allOrders.filter(o=>norm(custMap[o.customer_id]||'').includes(nq)||String(o.id).includes(nq)) : allOrders);
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // CUSTOMERS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let selCust = null;
 let allCustomers = [];
 
@@ -1916,9 +2066,9 @@ function filterCustomers(q) {
   renderCustomers(nq?allCustomers.filter(c=>norm(c.first_name+c.last_name).includes(nq)||norm(c.phone||'').includes(nq)):allCustomers);
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // TARIFFS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let selTariff = null;
 
 function loadTariffs() {
@@ -1959,9 +2109,9 @@ function deleteTariff() {
   selTariff=null; loadTariffs(); autoSync();
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // TIPS / NOTES
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let currentNote = null;
 let editingNote = null;
 let pendingImgs = [];
@@ -2149,9 +2299,9 @@ function openLightbox(src) {
 }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // INTERNAL NEWS
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let selNews = null;
 let allNews = [];
 
@@ -2210,9 +2360,9 @@ function filterNews(q) {
   renderNews(nq?allNews.filter(n=>norm(n.title).includes(nq)||norm(n.content||'').includes(nq)):allNews);
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // REPORTS WITH CHART
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 let repAllData = [];
 let repCols = [];
 let revenueChart = null;
@@ -2248,9 +2398,6 @@ function showReport(type) {
     const d = (o.date||'').split(' ')[0];
     const dateParts = d.split('/');
     if (dateParts.length === 3) {
-      const year = +dateParts[0];
-      const month = +dateParts[1];
-      const day = +dateParts[2];
       daily[d] = (daily[d]||0) + (o.total||0);
     }
   });
@@ -2266,17 +2413,14 @@ function showReport(type) {
   });
   
   if (type === 'daily') {
-    // آخرین 30 روز
     const recent = sortedDates.slice(-30);
     labels = recent;
     values = recent.map(d => daily[d]||0);
     title = 'فروش روزانه (۳۰ روز اخیر)';
   } else if (type === 'weekly') {
-    // خلاصه هفتگی - هفته‌های اخیر
     const weeks = {};
     sortedDates.forEach(d => {
       const parts = d.split('/').map(Number);
-      // پیدا کردن هفته (ماه/هفته)
       const weekKey = `${parts[0]}/${parts[1]}/هفته${Math.ceil(parts[2]/7)}`;
       weeks[weekKey] = (weeks[weekKey]||0) + daily[d];
     });
@@ -2285,7 +2429,6 @@ function showReport(type) {
     values = weekLabels.map(w => weeks[w]||0);
     title = 'فروش هفتگی (۱۲ هفته اخیر)';
   } else if (type === 'monthly') {
-    // خلاصه ماهانه
     const months = {};
     sortedDates.forEach(d => {
       const parts = d.split('/').map(Number);
@@ -2296,8 +2439,7 @@ function showReport(type) {
     labels = monthLabels;
     values = monthLabels.map(m => months[m]||0);
     title = 'فروش ماهانه (۱۲ ماه اخیر)';
-  } else { // all
-    // همه تاریخ‌ها
+  } else {
     labels = sortedDates;
     values = sortedDates.map(d => daily[d]||0);
     title = 'همه فروش‌ها';
@@ -2305,7 +2447,6 @@ function showReport(type) {
   
   updateChart(labels, values, title);
   
-  // جدول گزارش
   const rows = labels.map((d, i) => [d, fmtNum(values[i]) + ' ریال']);
   repCols = ['تاریخ', 'درآمد (ریال)'];
   setRepHead(['تاریخ', 'درآمد (ریال)']);
@@ -2423,61 +2564,56 @@ function filterReport(q) {
   filtered.forEach(row=>{ const tr=document.createElement('tr'); tr.innerHTML=row.map(v=>`<td>${v}</td>`).join(''); tbody.appendChild(tr); });
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // THEME
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 function toggleTheme() {
   const isDark = document.documentElement.dataset.theme==='dark';
   document.documentElement.dataset.theme = isDark?'':'dark';
   document.getElementById('theme-toggle').textContent = isDark?'🌙 تم تاریک':'☀️ تم روشن';
   document.getElementById('theme-toggle').classList.toggle('on',!isDark);
   localStorage.setItem('theme',isDark?'light':'dark');
-  // Refresh chart if visible
   if (document.getElementById('page-reports').classList.contains('active')) {
     showReport(currentReportType);
   }
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // DATE
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 function updateDate() {
   const d = new Date().toLocaleString('fa-IR');
   document.getElementById('topbar-date').textContent = '📅 ' + d;
 }
 
-// ══════════════════════════════════════════════════
+// ──────────────────────────────────────────────────
 // INIT
-// ══════════════════════════════════════════════════
-initDB();
-if (localStorage.getItem('theme')==='dark') { document.documentElement.dataset.theme='dark'; document.getElementById('theme-toggle').textContent='☀️ تم روشن'; document.getElementById('theme-toggle').classList.add('on'); }
-updateDate();
-setInterval(updateDate, 30000);
-
-// راه‌اندازی همگام‌سازی
-if (SYNC_CONFIG.ENABLED) {
-  setTimeout(syncFromCloud, 1000);
-  setInterval(() => {
-    syncFromCloud();
-  }, SYNC_CONFIG.SYNC_INTERVAL);
+// ──────────────────────────────────────────────────
+if (checkLogin()) {
+  initDB();
+  if (localStorage.getItem('theme')==='dark') { 
+    document.documentElement.dataset.theme='dark'; 
+    document.getElementById('theme-toggle').textContent='☀️ تم روشن'; 
+    document.getElementById('theme-toggle').classList.add('on'); 
+  }
+  updateDate();
+  setInterval(updateDate, 30000);
+  loadDashboard();
+  initSync();
 } else {
-  setSyncStatus('', '💾 حالت آفلاین');
+  // Show login page
+  document.getElementById('login-page').classList.remove('hidden');
+  document.getElementById('app').style.display = 'none';
+  // Focus on password input
+  document.getElementById('login-password').focus();
 }
 
-loadDashboard();
-
+console.log('🔐 رمز ورود: amiriman1998');
 console.log('📌 برای فعال‌سازی همگام‌سازی بین دستگاه‌ها:');
 console.log('1. به https://jsonbin.io بروید و ثبت‌نام کنید');
 console.log('2. یک Bin جدید بسازید');
 console.log('3. SYNC_CONFIG را در کد با BIN_ID و API_KEY خود پر کنید');
 console.log('4. SYNC_CONFIG.ENABLED = true کنید');
-console.log('');
-console.log('📌 امکانات جدید:');
-console.log('✅ خروجی و ورودی JSON برای ذخیره/بازیابی داده‌ها');
-console.log('✅ ویرایش و حذف سفارش‌ها');
-console.log('✅ نمودار فروش با Chart.js');
-console.log('✅ گزارش‌های روزانه، هفتگی، ماهانه و کلی');
-console.log('✅ همگام‌سازی بین دستگاه‌ها با JSONBin');
 </script>
 </body>
 </html>
