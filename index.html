@@ -349,6 +349,8 @@
   .section-header {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
   .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
@@ -577,7 +579,7 @@
 
   /* ── Misc ── */
   .row { display: flex; gap: 12px; align-items: flex-start; }
-  .row-center { display: flex; gap: 12px; align-items: center; }
+  .row-center { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .gap-2 { gap: 8px; }
   .mb-3 { margin-bottom: 12px; }
   .mb-4 { margin-bottom: 16px; }
@@ -601,6 +603,21 @@
   /* cart */
   #cart-table { max-height: 160px; overflow-y: auto; }
 
+  /* Chart container */
+  .chart-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    height: 300px;
+  }
+  .chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   /* Responsive */
   @media (max-width: 800px) {
     #sidebar { width: 52px; min-width: 52px; }
@@ -608,6 +625,8 @@
     .nav-item { justify-content: center; padding: 12px; }
     .nav-icon { font-size: 20px; }
     .page-body { padding: 12px; }
+    .form-grid-4 { grid-template-columns: 1fr 1fr; }
+    .tips-sidebar { width: 180px; min-width: 140px; }
   }
 
   /* tips layout */
@@ -629,6 +648,40 @@
   #sync-status.synced { background: var(--success); color: #fff; border-color: var(--success); }
   #sync-status.syncing { background: var(--warning); color: #fff; border-color: var(--warning); }
   #sync-status.error { background: var(--danger); color: #fff; border-color: var(--danger); }
+  
+  .order-actions {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+  }
+  .order-actions button {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  .report-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .report-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .report-tab:hover { border-color: var(--accent); }
+  .report-tab.active {
+    background: var(--accent);
+    color: var(--btn-text);
+    border-color: var(--accent);
+  }
 </style>
 </head>
 <body>
@@ -835,7 +888,7 @@
         <div class="card" style="padding:0">
           <div class="table-wrap" style="border:none">
             <table>
-              <thead><tr><th>شماره</th><th>تاریخ</th><th>مشتری</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+              <thead><tr><th>شماره</th><th>تاریخ</th><th>مشتری</th><th>مبلغ</th><th>وضعیت</th><th>عملیات</th></tr></thead>
               <tbody id="orders-table"></tbody>
             </table>
           </div>
@@ -993,13 +1046,28 @@
     <!-- ══ REPORTS ══ -->
     <div class="page" id="page-reports">
       <div class="page-body">
+        <div class="report-tabs" id="report-tabs">
+          <button class="report-tab active" onclick="showReport('daily')">📅 روزانه</button>
+          <button class="report-tab" onclick="showReport('weekly')">📆 هفتگی</button>
+          <button class="report-tab" onclick="showReport('monthly')">📊 ماهانه</button>
+          <button class="report-tab" onclick="showReport('all')">📈 کلی</button>
+        </div>
+        
+        <!-- Chart -->
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+        
         <div class="row-center mb-4 gap-2" style="flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="reportDaily()">📅 فروش روزانه</button>
-          <button class="btn btn-secondary" onclick="reportTopServices()">🏆 پرفروش‌ترین خدمات</button>
+          <button class="btn btn-primary" onclick="reportTopServices()">🏆 پرفروش‌ترین خدمات</button>
           <button class="btn btn-secondary" onclick="reportTopCustomers()">👑 بهترین مشتریان</button>
           <button class="btn btn-danger btn-sm" onclick="reportDebtors()">⚠️ بدهکاران</button>
           <button class="btn btn-secondary" onclick="reportServiceStats()">📊 آمار خدمات</button>
+          <button class="btn btn-secondary" onclick="exportData()">💾 خروجی JSON</button>
+          <button class="btn btn-secondary" onclick="importData()">📂 وارد کردن JSON</button>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
         </div>
+        
         <div class="row-center mb-3">
           <div class="flex-1 search-wrap">
             <span class="search-icon">🔍</span>
@@ -1038,7 +1106,7 @@
     </div>
     <div class="field mb-3">
       <label>متن راهنما و نکات</label>
-      <textarea id="nm-body" style="min-height:140px" placeholder="راهنمای مرحله‌به‌مرحله ثبت‌نام را اینجا بنویسید...&#10;مثال:&#10;مرحله ۱: وارد سایت sanjesh.org شوید&#10;مرحله ۲: روی ثبت‌نام کلیک کنید&#10;..."></textarea>
+      <textarea id="nm-body" style="min-height:140px" placeholder="راهنمای مرحله‌به‌مرحله ثبت‌نام را اینجا بنویسید..."></textarea>
     </div>
     <div class="field mb-3">
       <label>آدرس سایت (اختیاری)</label>
@@ -1064,6 +1132,37 @@
   </div>
 </div>
 
+<!-- ══ ORDER EDIT MODAL ══ -->
+<div class="modal-overlay" id="order-edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ ویرایش سفارش</div>
+      <button class="modal-close" onclick="closeOrderEditModal()">✕</button>
+    </div>
+    <div class="field mb-3">
+      <label>مشتری</label>
+      <select id="order-edit-cust"></select>
+    </div>
+    <div class="field mb-3">
+      <label>تاریخ</label>
+      <input id="order-edit-date" type="datetime-local">
+    </div>
+    <div class="field mb-3">
+      <label>وضعیت</label>
+      <select id="order-edit-status">
+        <option>تکمیل شده</option>
+        <option>در انتظار</option>
+        <option>لغو شده</option>
+        <option>مرجوعی</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeOrderEditModal()">انصراف</button>
+      <button class="btn btn-primary" onclick="saveOrderEdit()">💾 ذخیره</button>
+    </div>
+  </div>
+</div>
+
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
@@ -1072,6 +1171,9 @@
 
 <!-- Toast -->
 <div id="toast"></div>
+
+<!-- Chart.js for graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
 // ══════════════════════════════════════════════════
@@ -1266,7 +1368,7 @@ function setSyncStatus(status, msg) {
 }
 
 // ══════════════════════════════════════════════════
-// SYNC FUNCTIONS - همگام‌سازی با JSONBin
+// SYNC FUNCTIONS
 // ══════════════════════════════════════════════════
 async function syncToCloud() {
   if (!SYNC_CONFIG.ENABLED) return;
@@ -1312,7 +1414,6 @@ async function syncFromCloud() {
     const result = await response.json();
     const data = result.record;
     
-    // به‌روزرسانی localStorage
     let changed = false;
     const tables = ['services', 'customers', 'orders', 'order_items', 'tariffs', 'internal_news', 'tips'];
     
@@ -1320,7 +1421,6 @@ async function syncFromCloud() {
       if (data[key]) {
         const local = DB.get(key);
         const cloud = data[key];
-        // بررسی تغییرات با مقایسه JSON
         if (JSON.stringify(local) !== JSON.stringify(cloud)) {
           DB.set(key, cloud);
           changed = true;
@@ -1330,7 +1430,6 @@ async function syncFromCloud() {
     
     if (changed) {
       setSyncStatus('synced', '🔄 داده‌ها بروز شد');
-      // به‌روزرسانی UI
       const activePage = document.querySelector('.page.active');
       if (activePage) {
         const id = activePage.id.replace('page-', '');
@@ -1347,9 +1446,70 @@ async function syncFromCloud() {
   }
 }
 
-// تابع برای ارسال خودکار تغییرات
 function autoSync() {
   syncToCloud();
+}
+
+// ══════════════════════════════════════════════════
+// EXPORT / IMPORT DATA
+// ══════════════════════════════════════════════════
+function exportData() {
+  const data = {
+    services: DB.get('services'),
+    customers: DB.get('customers'),
+    orders: DB.get('orders'),
+    order_items: DB.get('order_items'),
+    tariffs: DB.get('tariffs'),
+    internal_news: DB.get('internal_news'),
+    tips: DB.get('tips'),
+    export_date: nowStr()
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kafinet_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('فایل ذخیره شد ✅', 'success');
+}
+
+function importData() {
+  document.getElementById('import-file').click();
+}
+
+function handleImport(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      const tables = ['services', 'customers', 'orders', 'order_items', 'tariffs', 'internal_news', 'tips'];
+      let count = 0;
+      
+      tables.forEach(key => {
+        if (data[key]) {
+          DB.set(key, data[key]);
+          count++;
+        }
+      });
+      
+      toast(`${count} جدول با موفقیت وارد شد ✅`, 'success');
+      // Refresh current page
+      const activePage = document.querySelector('.page.active');
+      if (activePage) {
+        const id = activePage.id.replace('page-', '');
+        onPageLoad(id);
+      }
+    } catch (err) {
+      toast('فایل نامعتبر است ❌', 'danger');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 // ══════════════════════════════════════════════════
@@ -1384,7 +1544,7 @@ function onPageLoad(key) {
   else if (key==='tariffs') loadTariffs();
   else if (key==='tips') loadTips();
   else if (key==='internal_news') loadNews();
-  else if (key==='reports') reportDaily();
+  else if (key==='reports') showReport('daily');
 }
 
 // ══════════════════════════════════════════════════
@@ -1440,7 +1600,7 @@ function loadDashboard() {
         <td>${o.id}</td><td>${o.date||'-'}</td>
         <td>${custMap[o.customer_id]||o.customer_id||'-'}</td>
         <td>${fmtNum(o.total)} ریال</td>
-        <td><span class="badge badge-success">${o.status||'تکمیل شده'}</span></td>
+        <td><span class="badge ${o.status==='لغو شده'?'badge-danger':o.status==='در انتظار'?'badge-warning':o.status==='مرجوعی'?'badge-muted':'badge-success'}">${o.status||'تکمیل شده'}</span></td>
       </tr>`;
     });
   }
@@ -1518,6 +1678,7 @@ function filterServices(q) {
 let cart = [];
 let allOrders = [];
 let selProd = null;
+let editingOrderId = null;
 
 function loadOrderPage() {
   const custs = DB.get('customers')||[];
@@ -1538,12 +1699,22 @@ function renderOrders(data) {
   custs.forEach(c=>custMap[c.id]=c.first_name+' '+c.last_name);
   const tbody = document.getElementById('orders-table');
   tbody.innerHTML = '';
-  if (!data.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="5">هیچ سفارشی ثبت نشده</td></tr>'; return; }
+  if (!data.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">هیچ سفارشی ثبت نشده</td></tr>'; return; }
   [...data].reverse().forEach(o=>{
-    tbody.innerHTML += `<tr><td>${o.id}</td><td>${o.date||'-'}</td>
+    const statusClass = o.status==='لغو شده'?'badge-danger':o.status==='در انتظار'?'badge-warning':o.status==='مرجوعی'?'badge-muted':'badge-success';
+    tbody.innerHTML += `<tr>
+      <td>${o.id}</td>
+      <td>${o.date||'-'}</td>
       <td>${custMap[o.customer_id]||'-'}</td>
       <td>${fmtNum(o.total)} ریال</td>
-      <td><span class="badge badge-success">${o.status||'تکمیل شده'}</span></td></tr>`;
+      <td><span class="badge ${statusClass}">${o.status||'تکمیل شده'}</span></td>
+      <td>
+        <div class="order-actions">
+          <button class="btn btn-secondary btn-sm" onclick="editOrder(${o.id})">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteOrder(${o.id})">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
   });
 }
 
@@ -1614,6 +1785,63 @@ function submitOrder() {
   DB.set('orders',orders); DB.set('order_items',items);
   cart=[]; refreshCart(); loadOrders(); autoSync();
   toast('سفارش ثبت شد 🎉','success');
+}
+
+function editOrder(id) {
+  const orders = DB.get('orders')||[];
+  const order = orders.find(o=>o.id===id);
+  if (!order) { toast('سفارش یافت نشد','danger'); return; }
+  editingOrderId = id;
+  
+  const sel = document.getElementById('order-edit-cust');
+  const custs = DB.get('customers')||[];
+  sel.innerHTML = '';
+  custs.forEach(c=>{
+    const o = document.createElement('option');
+    o.value = c.id;
+    o.textContent = c.first_name+' '+c.last_name;
+    if (c.id === order.customer_id) o.selected = true;
+    sel.appendChild(o);
+  });
+  
+  document.getElementById('order-edit-date').value = order.date ? order.date.replace(' ', 'T').slice(0,16) : '';
+  document.getElementById('order-edit-status').value = order.status||'تکمیل شده';
+  document.getElementById('order-edit-modal').classList.add('open');
+}
+
+function closeOrderEditModal() {
+  document.getElementById('order-edit-modal').classList.remove('open');
+  editingOrderId = null;
+}
+
+function saveOrderEdit() {
+  if (!editingOrderId) return;
+  const orders = DB.get('orders')||[];
+  const order = orders.find(o=>o.id===editingOrderId);
+  if (!order) { toast('خطا','danger'); return; }
+  
+  order.customer_id = +document.getElementById('order-edit-cust').value;
+  order.date = document.getElementById('order-edit-date').value.replace('T', ' ');
+  order.status = document.getElementById('order-edit-status').value;
+  
+  DB.set('orders', orders);
+  closeOrderEditModal();
+  loadOrders();
+  autoSync();
+  toast('سفارش ویرایش شد ✅', 'success');
+}
+
+function deleteOrder(id) {
+  if (!confirm('آیا این سفارش حذف شود؟')) return;
+  let orders = DB.get('orders')||[];
+  orders = orders.filter(o=>o.id!==id);
+  DB.set('orders', orders);
+  let items = DB.get('order_items')||[];
+  items = items.filter(i=>i.order_id!==id);
+  DB.set('order_items', items);
+  loadOrders();
+  autoSync();
+  toast('سفارش حذف شد', 'success');
 }
 
 function filterOrders(q) {
@@ -1983,10 +2211,12 @@ function filterNews(q) {
 }
 
 // ══════════════════════════════════════════════════
-// REPORTS
+// REPORTS WITH CHART
 // ══════════════════════════════════════════════════
 let repAllData = [];
 let repCols = [];
+let revenueChart = null;
+let currentReportType = 'daily';
 
 function setRepHead(heads) {
   const tr=document.getElementById('rep-head');
@@ -2006,14 +2236,143 @@ function renderRep(data) {
   });
 }
 
-function reportDaily() {
-  repCols=['تاریخ','درآمد (ریال)'];
-  setRepHead(['تاریخ','درآمد (ریال)']);
-  const orders=DB.get('orders')||[];
-  const daily={};
-  orders.forEach(o=>{ const d=(o.date||'').split(' ')[0]; daily[d]=(daily[d]||0)+(o.total||0); });
-  const rows=Object.entries(daily).sort((a,b)=>b[0].localeCompare(a[0])).map(([d,v])=>[d, fmtNum(v)+' ریال']);
+function showReport(type) {
+  currentReportType = type;
+  document.querySelectorAll('.report-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`.report-tab[onclick="showReport('${type}')"]`)?.classList.add('active');
+  
+  const orders = DB.get('orders')||[];
+  const daily = {};
+  
+  orders.forEach(o => {
+    const d = (o.date||'').split(' ')[0];
+    const dateParts = d.split('/');
+    if (dateParts.length === 3) {
+      const year = +dateParts[0];
+      const month = +dateParts[1];
+      const day = +dateParts[2];
+      daily[d] = (daily[d]||0) + (o.total||0);
+    }
+  });
+  
+  let labels = [];
+  let values = [];
+  let title = '';
+  
+  const sortedDates = Object.keys(daily).sort((a,b) => {
+    const partsA = a.split('/').map(Number);
+    const partsB = b.split('/').map(Number);
+    return partsA[0] - partsB[0] || partsA[1] - partsB[1] || partsA[2] - partsB[2];
+  });
+  
+  if (type === 'daily') {
+    // آخرین 30 روز
+    const recent = sortedDates.slice(-30);
+    labels = recent;
+    values = recent.map(d => daily[d]||0);
+    title = 'فروش روزانه (۳۰ روز اخیر)';
+  } else if (type === 'weekly') {
+    // خلاصه هفتگی - هفته‌های اخیر
+    const weeks = {};
+    sortedDates.forEach(d => {
+      const parts = d.split('/').map(Number);
+      // پیدا کردن هفته (ماه/هفته)
+      const weekKey = `${parts[0]}/${parts[1]}/هفته${Math.ceil(parts[2]/7)}`;
+      weeks[weekKey] = (weeks[weekKey]||0) + daily[d];
+    });
+    const weekLabels = Object.keys(weeks).slice(-12);
+    labels = weekLabels;
+    values = weekLabels.map(w => weeks[w]||0);
+    title = 'فروش هفتگی (۱۲ هفته اخیر)';
+  } else if (type === 'monthly') {
+    // خلاصه ماهانه
+    const months = {};
+    sortedDates.forEach(d => {
+      const parts = d.split('/').map(Number);
+      const monthKey = `${parts[0]}/${parts[1]}`;
+      months[monthKey] = (months[monthKey]||0) + daily[d];
+    });
+    const monthLabels = Object.keys(months).slice(-12);
+    labels = monthLabels;
+    values = monthLabels.map(m => months[m]||0);
+    title = 'فروش ماهانه (۱۲ ماه اخیر)';
+  } else { // all
+    // همه تاریخ‌ها
+    labels = sortedDates;
+    values = sortedDates.map(d => daily[d]||0);
+    title = 'همه فروش‌ها';
+  }
+  
+  updateChart(labels, values, title);
+  
+  // جدول گزارش
+  const rows = labels.map((d, i) => [d, fmtNum(values[i]) + ' ریال']);
+  repCols = ['تاریخ', 'درآمد (ریال)'];
+  setRepHead(['تاریخ', 'درآمد (ریال)']);
   renderRep(rows);
+}
+
+function updateChart(labels, values, title) {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  
+  if (revenueChart) {
+    revenueChart.destroy();
+  }
+  
+  const isDark = document.documentElement.dataset.theme === 'dark';
+  const textColor = isDark ? '#EEEEF2' : '#1A1F36';
+  const gridColor = isDark ? '#32323E' : '#D6DCE9';
+  const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#1A56C4';
+  
+  revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'درآمد (ریال)',
+        data: values,
+        backgroundColor: accentColor + '80',
+        borderColor: accentColor,
+        borderWidth: 2,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: textColor }
+        },
+        title: {
+          display: true,
+          text: title,
+          color: textColor,
+          font: { size: 16, weight: 'bold', family: 'Vazirmatn' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColor,
+            callback: function(value) {
+              return value.toLocaleString('fa-IR') + ' ریال';
+            }
+          },
+          grid: { color: gridColor }
+        },
+        x: {
+          ticks: {
+            color: textColor,
+            maxRotation: 45,
+            font: { size: 10 }
+          },
+          grid: { color: gridColor }
+        }
+      }
+    }
+  });
 }
 
 function reportTopServices() {
@@ -2073,6 +2432,10 @@ function toggleTheme() {
   document.getElementById('theme-toggle').textContent = isDark?'🌙 تم تاریک':'☀️ تم روشن';
   document.getElementById('theme-toggle').classList.toggle('on',!isDark);
   localStorage.setItem('theme',isDark?'light':'dark');
+  // Refresh chart if visible
+  if (document.getElementById('page-reports').classList.contains('active')) {
+    showReport(currentReportType);
+  }
 }
 
 // ══════════════════════════════════════════════════
@@ -2093,9 +2456,7 @@ setInterval(updateDate, 30000);
 
 // راه‌اندازی همگام‌سازی
 if (SYNC_CONFIG.ENABLED) {
-  // اولین بار از سرور بخوان
   setTimeout(syncFromCloud, 1000);
-  // به صورت دوره‌ای همگام‌سازی کن
   setInterval(() => {
     syncFromCloud();
   }, SYNC_CONFIG.SYNC_INTERVAL);
@@ -2110,6 +2471,13 @@ console.log('1. به https://jsonbin.io بروید و ثبت‌نام کنید')
 console.log('2. یک Bin جدید بسازید');
 console.log('3. SYNC_CONFIG را در کد با BIN_ID و API_KEY خود پر کنید');
 console.log('4. SYNC_CONFIG.ENABLED = true کنید');
+console.log('');
+console.log('📌 امکانات جدید:');
+console.log('✅ خروجی و ورودی JSON برای ذخیره/بازیابی داده‌ها');
+console.log('✅ ویرایش و حذف سفارش‌ها');
+console.log('✅ نمودار فروش با Chart.js');
+console.log('✅ گزارش‌های روزانه، هفتگی، ماهانه و کلی');
+console.log('✅ همگام‌سازی بین دستگاه‌ها با JSONBin');
 </script>
 </body>
 </html>
